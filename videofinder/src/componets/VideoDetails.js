@@ -1,29 +1,20 @@
 import React from 'react';
-import ReactPlayer from 'react-player';
 
-class VideoDetails extends React.Component {
-	state = { videoPlay: '', details: null };
-	componentDidMount() {
-		this.setState({
-			videoPlay: this.props.mainVideo,
-			details: this.props.details,
-		});
-		console.log(this.state.videoPlay);
+const VideoDetails = ({ video }) => {
+	if (!video) {
+		return <div>Loading...</div>;
 	}
-	render() {
-		const detail = this.state.details ? this.state.details.id.videoId : <div />;
-		console.log(`https://www.youtube.com/watch?v=${this.state.videoPlay}`);
-		const video = (
-			<div>
-				<div className='ui raised segment'>
-					<ReactPlayer
-						url={`https://www.youtube.com/watch?v=${this.state.videoPlay}`}
-					/>
-					<div style={{ marginTop: '10px' }}>{detail}</div>
-				</div>
+	const videoSrc = `https://www.youtube.com/embed/${video.id.videoId}`;
+	return (
+		<div>
+			<div className='ui embed'>
+				<iframe title='videoPlayer' src={videoSrc}></iframe>
 			</div>
-		);
-		return <div>{video}</div>;
-	}
-}
+			<div className='ui segment'>
+				<h4>{video.snippet.title}</h4>
+				<p>{video.snippet.description}</p>
+			</div>
+		</div>
+	);
+};
 export default VideoDetails;
